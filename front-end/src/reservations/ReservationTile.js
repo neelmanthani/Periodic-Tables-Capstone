@@ -5,7 +5,7 @@ import { useHistory} from "react-router-dom";
 
 
 
-function ReservationTile({reservation, setError}) {
+function ReservationTile({reservation, setError, loadReservations}) {
     const history = useHistory();
 
     const reservation_id = reservation.reservation_id;
@@ -29,7 +29,7 @@ function ReservationTile({reservation, setError}) {
     
         setStatus(reservation_id, "cancelled", abortController.signal)
         .then(() => {
-            history.replace(history.location.pathname);
+            loadReservations(abortController);
         })
         .catch(setError);
     }
@@ -54,12 +54,12 @@ function ReservationTile({reservation, setError}) {
                 <div className="row">
                     {showSeatButton && <a className="btn btn-primary w-100" href={`/reservations/${reservation_id}/seat`}>Seat</a>}
                     <a className="btn btn-secondary w-100" href={`/reservations/${reservation_id}/edit`}>Edit</a>
-                    <button 
+                    {reservation.status !== 'cancelled' && <button 
                         className="btn btn-secondary w-100" 
                         data-reservation-id-cancel={reservation.reservation_id} 
                         onClick={() => handleCancel(reservation_id)}>
                             Cancel
-                    </button>
+                    </button>}
                 </div>
   
             </div>

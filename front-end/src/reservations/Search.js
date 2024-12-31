@@ -10,6 +10,18 @@ function Search() {
   const [reservations, setReservations] = useState([]);
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
+  
+
+  async function loadReservations(abortController) {
+    try {
+      const resList = await listReservations({ mobile_number: mobileNumber }, abortController.signal)
+      setReservations(resList);
+      setSearched(true);
+    } catch (error) {
+      setError(error);
+    }
+  }
+
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -17,12 +29,7 @@ function Search() {
 
     const abortController = new AbortController();
 
-    listReservations({ mobile_number: mobileNumber }, abortController.signal)
-      .then((data) => {
-        setReservations(data);
-        setSearched(true);
-      })
-      .catch(setError);
+    loadReservations(abortController)
 
     return () => abortController.abort();
   };
@@ -53,7 +60,7 @@ function Search() {
               <h4>Reservations Found:</h4>
                 <div className="col-8">
                     {reservations.map((reservation) => {
-                        return <ReservationTile key={reservation.id} reservation={reservation} setError={setError}/>
+                        return <ReservationTile key={reservation.id} reservation={reservation} setError={setError} loadReservations={loadReservations}/>
                     })}
                 </div>
             </div>

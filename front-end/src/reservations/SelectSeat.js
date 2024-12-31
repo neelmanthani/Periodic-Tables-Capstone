@@ -8,7 +8,6 @@ import { useHistory, useParams } from "react-router-dom";
 
 function SelectSeat() {
     const history = useHistory();
-    const currentUrl = window.location.href;
     
     const { reservation_id } = useParams();
 
@@ -77,7 +76,6 @@ function SelectSeat() {
             <button type="button" className="btn-secondary" onClick={() => history.go(-1)}>Cancel </button>
         
             </form>
-            <p>{currentUrl}</p>
         </div>
       );
 }

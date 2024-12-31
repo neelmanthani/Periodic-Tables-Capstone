@@ -82,7 +82,7 @@ function Dashboard() {
         <div className="row">
           <div className="col-8">
             {reservations.map((reservation) => {
-              return <ReservationTile key={reservation.id} reservation={reservation} setError={setReservationsError}/>
+              return <ReservationTile key={reservation.id} reservation={reservation} setError={setReservationsError} loadReservations={loadReservations}/>
             })}
           </div>
           <div className="border p-3 col-4">
