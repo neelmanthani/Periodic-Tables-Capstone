@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { listReservations, listTables, finishTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import { today, formatAsTime } from "../utils/date-time";
+import { today, next, previous } from "../utils/date-time";
 import { useLocation } from 'react-router-dom';
 import ReservationTile from '../reservations/ReservationTile';
 
@@ -76,6 +76,13 @@ function Dashboard() {
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
         <h4 className="mb-0">Reservations for {date}</h4>
+      </div> 
+      <div className="p-3 pl-4 container">
+        <div className='row'>
+          <a className="btn btn-secondary col mx-5" href={`/dashboard?date=${previous(date)}`}>Previous</a>
+          <a className="btn btn-secondary col mx-5" href={`/dashboard?date=${today()}`}>Today</a>
+          <a className="btn btn-secondary col mx-5" href={`/dashboard?date=${next(date)}`}>Next</a>
+        </div>
       </div>
       <ErrorAlert error={reservationsError} />
       <div className="p-3 pl-4 container">
