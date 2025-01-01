@@ -9,10 +9,11 @@ function list(filters) {
             .orderBy('reservation_time', 'asc')
     } else {
         return knex("reservations")
-            .select("*")
-            .where("mobile_number", "like", `%${filters.mobile_number}%`)
-            .andWhereNot({ status: "finished" })
-            .orderBy('reservation_time', 'asc')
+            .whereRaw(
+            "translate(mobile_number, '() -', '') like ?",
+            `%${filters.mobile_number.replace(/\D/g, "")}%`
+            )
+            .orderBy("reservation_date");    
     }
 }
 
